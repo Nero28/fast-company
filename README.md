@@ -1,3 +1,3 @@
 ## Fast-company app
 
-![1](image/1.png)
+![1](src/image/1.png)
