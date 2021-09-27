@@ -1,29 +1,13 @@
-import React, { useState } from "react";
-import api from "../api";
+import React from "react";
+import User from "./user";
+import SearchStatus from "./searchStatus";
 
-const Users = () => {
-  // console.log(api.users.fetchAll());
-  const [users, setUsers] = useState(api.users.fetchAll());
-
-  const handleDalete = (userId) => {
-    // console.log("userId", userId);
-    setUsers(users.filter((user) => user._id !== userId));
-  };
-
-  const renderPhrase = (number) => {
-    const phrase =
-      number >= 5 || number === 1 ? "человек тусанет" : "человека тусанет";
-    return `${number} ${phrase} с
-        тобой сегодня`;
-  };
-
+const Users = ({ users, onHandleDelete, onRenderPhrase }) => {
   return (
     <>
       {users.length !== 0 ? (
         <>
-          <span className="badge m-2 bg-primary">
-            {renderPhrase(users.length)}
-          </span>
+          <SearchStatus users={users} renderPhrase={onRenderPhrase} />
           <table className="table">
             <thead>
               <tr>
@@ -32,38 +16,11 @@ const Users = () => {
                 <th scope="col">Профессия</th>
                 <th scope="col">Встретился,раз</th>
                 <th scope="col">Оценка</th>
+                <th scope="col">Избранное</th>
                 <th scope="col"></th>
               </tr>
             </thead>
-            <tbody>
-              {users.map((user) => (
-                <tr key={user._id}>
-                  <td>{user.name}</td>
-                  <td>
-                    {user.qualities.map((qual) => {
-                      let classes = "badge rounded-pill bg-";
-                      classes += qual.color;
-                      return (
-                        <td key={qual._id} className={classes}>
-                          {qual.name}
-                        </td>
-                      );
-                    })}
-                  </td>
-                  <td>{user.profession.name}</td>
-                  <td>{user.completedMeetings}</td>
-                  <td>{user.rate}</td>
-                  <td>
-                    <button
-                      onClick={() => handleDalete(user._id)}
-                      className="btn btn-danger"
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
+            <User users={users} handleDelete={onHandleDelete} />
           </table>
         </>
       ) : (
