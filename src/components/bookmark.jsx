@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-
-const Bookmark = () => {
-    const [active, setActive] = useState();
-    const getClasses = () => {
-        let classes = "bi bi-bookmark";
-        classes += active === true ? "-fill" : "";
-        return classes;
-    };
-
-    return <i onClick={() => setActive(!active)} className={getClasses()}></i>;
+import React from "react";
+import PropTypes from "prop-types";
+const BookMark = ({ status, ...rest }) => {
+    return (
+        <button {...rest}>
+            <i className={"bi bi-bookmark" + (status ? "-heart-fill" : "")}></i>
+        </button>
+    );
+};
+BookMark.propTypes = {
+    status: PropTypes.bool
 };
 
-export default Bookmark;
+export default BookMark;
